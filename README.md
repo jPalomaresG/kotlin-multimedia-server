@@ -1,110 +1,104 @@
-Kotlin Multimedia Server
+# Kotlin Multimedia Server
 
-Servidor TCP desarrollado en Kotlin para servir archivos de audio y metadatos. Diseñado específicamente para trabajar con el cliente Android Android Audio Client.
+Servidor TCP desarrollado en Kotlin para servir archivos de audio y metadatos. Diseñado específicamente para trabajar con el cliente Android Audio Client.
 
-Descripción
+## Descripción
 
 Este servidor permite a aplicaciones cliente:
 
-Obtener lista de canciones disponibles con metadatos completos
+- Obtener lista de canciones disponibles con metadatos completos  
+- Descargar o hacer streaming de archivos de audio  
+- Acceder a carátulas de álbumes extraídas de los metadatos  
 
-Descargar/streaming de archivos de audio
+## Características
 
-Acceder a carátulas de álbumes extraídas de los metadatos
+- Protocolo binario eficiente con prefijo de longitud  
+- Extracción de metadatos ID3 (título, artista, carátula) mediante JAudioTagger  
+- Soporte multi-formato: MP3, WAV, AAC, OGG, FLAC  
+- Manejo concurrente de clientes con corutinas  
+- Validación de seguridad contra *path traversal*  
+- Respuestas JSON estructuradas  
 
-Características
+## Requisitos
 
-Protocolo binario eficiente con prefijo de longitud
+- Java 21 o superior  
+- Gradle (incluido wrapper)  
 
-Extracción de metadatos ID3 (título, artista, carátula) mediante JAudioTagger
+## Configuración
 
-Soporte multi-formato: MP3, WAV, AAC, OGG, FLAC
+1. Clonar el repositorio  
+2. Añadir archivos de audio a la carpeta `audio_files/`  
+3. Ejecutar el servidor  
 
-Manejo concurrente de clientes con corutinas
-
-Validación de seguridad contra path traversal
-
-Respuestas JSON estructuradas
-
-Requisitos
-
-Java 21 o superior
-
-Gradle (incluido wrapper)
-
-Instalación y uso
-
-Clonar el repositorio:
-
+```bash
 git clone https://github.com/jPalomaresG/kotlin-multimedia-server
 cd kotlin-multimedia-server
-
-Añadir archivos de audio a la carpeta audio_files/
-
-Ejecutar el servidor:
-
 ./gradlew run
+```
 
-El servidor iniciará en localhost:8080
+El servidor iniciará en `localhost:8080`.
 
-Protocolo de comunicación
-1. Obtener lista de canciones
+## Protocolo de comunicación
 
-Request:
+### Obtener lista de canciones
 
-{"action": "get_track_list"}
-
-Response:
-
+**Request:**
+```json
 {
-"action": "track_list",
-"tracks": [
+  "action": "get_track_list"
+}
+```
+
+**Response:**
+```json
 {
-"id": "cancion.mp3",
-"title": "Nombre Canción",
-"artist": "Artista",
-"cover": "data:image/jpeg;base64,..."
+  "action": "track_list",
+  "tracks": [
+    {
+      "id": "cancion.mp3",
+      "title": "Nombre Canción",
+      "artist": "Artista",
+      "cover": "data:image/jpeg;base64,..."
+    }
+  ]
 }
-]
+```
+
+### Descargar audio
+
+**Request:**
+```json
+{
+  "action": "get_track",
+  "track_id": "cancion.mp3"
 }
-2. Descargar audio
+```
 
-Request:
-
-{"action": "get_track", "track_id": "cancion.mp3"}
-
-Response (formato binario):
-
+**Response (binario):**
+```
 [2 bytes metadata length][metadata JSON][8 bytes audio size][audio bytes]
-Tecnologías
+```
 
-Kotlin 2.1.0
+## Tecnologías
 
-Corutinas para concurrencia
+- Kotlin 2.1.0  
+- Corutinas para concurrencia  
+- kotlinx.serialization para JSON  
+- JAudioTagger para metadatos de audio  
+- Gradle Kotlin DSL  
 
-kotlinx.serialization para JSON
+## Relación con el cliente
 
-JAudioTagger para metadatos de audio
+Este servidor está diseñado específicamente para trabajar con:
 
-Gradle Kotlin DSL
-
-Cliente Android
-
-Este servidor está diseñado para ser consumido por:
-
-Android Audio Client
 https://github.com/jPalomaresG/android-audio-client
 
-La aplicación Android se conecta a este servidor para obtener la lista de canciones y reproducir el audio.
+El cliente Android se conecta a este servidor para obtener la lista de canciones y reproducir el audio.
 
-Autor
+## Autor
 
 Josué Javier Palomares García
 
-Licencia
+## Licencia
 
-<<<<<<< HEAD
 Todos los derechos reservados © 2025 Josué Javier Palomares García
-=======
-Todos los derechos reservados © 2025 Josué Javier Palomares García
->>>>>>> bd94f926b986dd10d26eb425b87fdb84a01246af
