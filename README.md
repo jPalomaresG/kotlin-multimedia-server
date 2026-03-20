@@ -103,4 +103,8 @@ Josué Javier Palomares García
 
 Licencia
 
+<<<<<<< HEAD
 Todos los derechos reservados © 2025 Josué Javier Palomares García
+=======
+Todos los derechos reservados © 2025 Josué Javier Palomares García
+>>>>>>> bd94f926b986dd10d26eb425b87fdb84a01246af
